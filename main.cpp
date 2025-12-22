@@ -1,22 +1,18 @@
+#include <iostream>
 #include "Methods.h"
-
+#include "Solver.h"
 
 double f(double x) {
     return x * x * x - x - 2;
 }
 
-double df(double x) {
-    return 3 * x * x - 1;
-}
-
-
 int main() {
-    double a = 1;
-    double b = 2;
+    double a = 1.0;
+    double b = 2.0;
 
     BisectionMethod bisection(f, a, b);
     ChordMethod chord(f, a, b);
-    NewtonMethod newton(f, df, a, b);
+    NewtonMethod newton(f, a, b);
 
     Solver solver;
 
