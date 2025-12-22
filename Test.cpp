@@ -1,14 +1,12 @@
 #include <gtest/gtest.h>
+#include <cmath>
 #include "Methods.h"
+#include "Solver.h"
 
 constexpr double EPS = 1e-6;
 
 double f(double x) {
     return x * x - 2;
-}
-
-double df(double x) {
-    return 2 * x;
 }
 
 TEST(BisectionMethodTest, FindsSqrt2) {
@@ -26,7 +24,7 @@ TEST(ChordMethodTest, FindsSqrt2) {
 }
 
 TEST(NewtonMethodTest, FindsSqrt2) {
-    NewtonMethod method(f, df, 1.0, 2.0, EPS);
+    NewtonMethod method(f, 1.0, 2.0, EPS);
     double root = method.launch();
 
     EXPECT_NEAR(root, std::sqrt(2.0), EPS);
@@ -37,7 +35,7 @@ TEST(StrategyTest, MethodsAreInterchangeable) {
 
     BisectionMethod bisection(f, 1.0, 2.0, EPS);
     ChordMethod chord(f, 1.0, 2.0, EPS);
-    NewtonMethod newton(f, df, 1.0, 2.0, EPS);
+    NewtonMethod newton(f, 1.0, 2.0, EPS);
 
     solver.setMethod(&bisection);
     double r1 = solver.solve();
@@ -67,20 +65,14 @@ double f2(double x) {
     return x * x * x - x - 2;
 }
 
-double df2(double x) {
-    return 3 * x * x - 1;
-}
-
 TEST(ExtraTest, CubicEquation) {
-    NewtonMethod method(f2, df2, 1.0, 2.0, EPS);
+    NewtonMethod method(f2, 1.0, 2.0, EPS);
     double root = method.launch();
 
     EXPECT_NEAR(root, 1.52138, 1e-5);
 }
 
-int main(int argc, char **argv) {
+int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }
-
-
