@@ -1,5 +1,6 @@
 #pragma once
 #include <cmath>
+#include <stdexcept>
 
 using Func = double (*)(double);
 
@@ -8,6 +9,7 @@ protected:
     Func f;
     double a, b;
     double eps;
+    static constexpr int MAX_ITER = 1000;
 
     double derivative(double x) const;
 
